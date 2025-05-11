@@ -1,0 +1,14 @@
+name: Build and Push Docker Image
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build and Push
+        run: |
+          docker build -t docker.io/yourusername/my-static-site:latest .
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker push docker.io/yourusername/my-static-site:latest
